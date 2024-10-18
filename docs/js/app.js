@@ -46,23 +46,80 @@ export default class App {
         y < this.canvas.height;
         y += this.cellSize
       ) {
-        this.#drawEllipse(x, y, (x + y) * 3)
+        this.#drawEllipseCell(x, y, (x + y) * 3)
       }
     }
   }
 
   /**
-   * Draw ellipse
+   * Draw ellipse cell
    *
+   * @param   {number} x
+   * @param   {number} y
+   * @param   {number} rotation
    * @returns {void}
    */
-  #drawEllipse(x, y, rotation = 0) {
-    const smallRadius = this.cellSize * 0.2
-    const bigRadius = this.cellSize * 0.5
+  #drawEllipseCell(x, y, rotation) {
+    this.context.beginPath()
+    this.context.strokeStyle = 'hsl(0,0%,0%)'
+    this.context.lineWidth = 4
+    this.#drawEllipseBorder(x, y, rotation, false)
+    this.context.stroke()
+
+    this.context.beginPath()
+    this.context.strokeStyle = 'hsl(0,0%,100%)'
+    this.context.lineWidth = 4
+    this.#drawEllipseBorder(x, y, rotation, true)
+    this.context.stroke()
+
     this.context.beginPath()
     this.context.fillStyle = 'hsl(120,100%,50%)'
-    this.context.ellipse(x, y, bigRadius, smallRadius, rotation, 0, 2 * Math.PI)
+    this.#drawEllipse(x, y, rotation)
     this.context.fill()
+  }
+
+  /**
+   * Draw ellipse cell border
+   *
+   * @param   {number}  x
+   * @param   {number}  y
+   * @param   {number}  rotation
+   * @param   {boolean} isCounterClockWise
+   * @returns {void}
+   */
+  #drawEllipseBorder(x, y, rotation = 0, isCounterClockWise = false) {
+    this.#drawEllipse(x, y, rotation, Math.PI, isCounterClockWise)
+  }
+
+  /**
+   * Draw ellipse
+   *
+   * @param   {number}  x
+   * @param   {number}  y
+   * @param   {number}  rotation
+   * @param   {number}  endAngle
+   * @param   {boolean} isCounterClockWise
+   * @returns {void}
+   */
+  #drawEllipse(
+    x,
+    y,
+    rotation = 0,
+    endAngle = 2 * Math.PI,
+    isCounterClockWise = false,
+  ) {
+    const smallRadius = this.cellSize * 0.2
+    const bigRadius = this.cellSize * 0.5
+    this.context.ellipse(
+      x,
+      y,
+      bigRadius,
+      smallRadius,
+      rotation,
+      0,
+      endAngle,
+      isCounterClockWise,
+    )
   }
 
   /**
