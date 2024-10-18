@@ -62,13 +62,11 @@ export default class App {
   #drawEllipseCell(x, y, rotation) {
     this.context.beginPath()
     this.context.strokeStyle = 'hsl(0,0%,0%)'
-    this.context.lineWidth = 4
     this.#drawEllipseBorder(x, y, rotation, false)
     this.context.stroke()
 
     this.context.beginPath()
     this.context.strokeStyle = 'hsl(0,0%,100%)'
-    this.context.lineWidth = 4
     this.#drawEllipseBorder(x, y, rotation, true)
     this.context.stroke()
 
@@ -88,6 +86,7 @@ export default class App {
    * @returns {void}
    */
   #drawEllipseBorder(x, y, rotation = 0, isCounterClockWise = false) {
+    this.context.lineWidth = 4
     this.#drawEllipse(x, y, rotation, Math.PI, isCounterClockWise)
   }
 
